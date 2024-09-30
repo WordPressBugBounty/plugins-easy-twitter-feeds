@@ -155,6 +155,8 @@ You can customize the Follow button according to the ShortCode below…
 
 🔥 **[Button Block](https://wordpress.org/plugins/button-block/)** – Get fully customizable & multi-functional buttons.
 
+🔥 **[Logo Carousel](https://wordpress.org/plugins/responsive-client-logo-carousel-slider/)** – Clients logo carousel for WP
+
 == Installation ==
 
 This section describes how to install the plugin and get it working.
