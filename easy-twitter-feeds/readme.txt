@@ -1,13 +1,13 @@
-=== Easy Twitter Feed - Twitter feeds plugin for WP   ===
-Contributors: bplugins, abuhayat, charlescormier, shehabulislam , shehab24, freemius
+=== Feeds For Twitter  ===
+Contributors: bplugins, abuhayat, charlescormier, shehabulislam, btechnologies, freemius
 Tags: Twitter Feed, Embed Twitter , X Post, follow button, X
 Requires at least: 4.0
-Tested up to: 6.5.3
-Stable tag: 1.2.6
+Tested up to: 6.7.1
+Stable tag: 1.2.7
 Requires PHP: 7.1
 Donate link: https://www.buymeacoffee.com/abuhayat
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License: GPLv3 or later
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 Embed Twitter Timeline/Feed, Post, Video, Hashtag, Follow Button, Tweet Button easily. This plugin is lightweight but super powerful.
 
@@ -182,6 +182,9 @@ No, you don't need to set anything before using the ShortCode.
 
 == Upgrade Notice ==
 
+= 1.2.7 - 12 Dec, 24 =
+* TradeMark Issues solved.
+
 = 1.2.6 =
 * Update some minor issues
 * Update screenshot
@@ -209,6 +212,9 @@ No, you don't need to set anything before using the ShortCode.
 * Initial Release
 
 == Changelog ==
+
+= 1.2.7 - 12 Dec, 24 =
+* TradeMark Issues solved.
 
 = 1.2.5 =
 * Performance and code improvement
