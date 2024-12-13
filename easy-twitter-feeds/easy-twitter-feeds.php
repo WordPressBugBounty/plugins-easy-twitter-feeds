@@ -2,7 +2,7 @@
 /*
  * Plugin Name: Feeds For Twitter
  * Description: You can Embed your Twitter timeline feed, Follow widget anywhere in WordPress using Shortcode.  
- * Version: 1.2.7
+ * Version: 1.2.8
  * Author: bPlugins
  * Author URI: https://bplugins.com/
  * Text Domain:  easy-twitter-feeds
@@ -13,7 +13,7 @@
 
 /*Some Set-up*/
 define('ETF_PLUGIN_DIR', WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/' ); 
-define('ETF_PLUGIN_VERSION', '1.2.7' ); 
+define('ETF_PLUGIN_VERSION', '1.2.8' ); 
 
 add_action('plugin_loaded','etf_load_textdomain');
 function etf_load_textdomain(){
