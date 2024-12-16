@@ -51,6 +51,7 @@ class ETFCustomPost{
 			'supports'				=> [ 'title', 'editor' ],
 			'template'				=> [ ['etf/twitter-feed'] ],
 			'template_lock'			=> 'all',
+			// 'show_in_menu'          => false
 		]); // Register Post Type
 	}
 
@@ -93,6 +94,7 @@ class ETFCustomPost{
 	{
 	   if ($post->post_type == 'easy-twitter-feeds') {
 		  $actions['duplicate'] = '<a href="' . admin_url("admin.php?action=duplicate_post&post={$post->ID}") . '">Duplicate</a>';
+		  
 	   }
 	   return $actions;
 	}

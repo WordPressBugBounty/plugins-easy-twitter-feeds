@@ -1,8 +1,8 @@
-<?php 
+<?php
 /*
  * Plugin Name: Feeds For Twitter
  * Description: You can Embed your Twitter timeline feed, Follow widget anywhere in WordPress using Shortcode.  
- * Version: 1.2.8
+ * Version: 1.2.9
  * Author: bPlugins
  * Author URI: https://bplugins.com/
  * Text Domain:  easy-twitter-feeds
@@ -11,73 +11,238 @@
  */
 
 
-/*Some Set-up*/
-define('ETF_PLUGIN_DIR', WP_PLUGIN_URL . '/' . plugin_basename( dirname(__FILE__) ) . '/' ); 
-define('ETF_PLUGIN_VERSION', '1.2.8' ); 
+// ABS PATH
+if (!defined('ABSPATH')) { exit; }
 
-add_action('plugin_loaded','etf_load_textdomain');
-function etf_load_textdomain(){
-    load_textdomain('easy-twitter-feeds', ETF_PLUGIN_DIR.'languages');
+if (function_exists('etf_fs')) {
 
-}
+    register_activation_hook(__FILE__, function () {
+        if (is_plugin_active('easy-twitter-feeds/easy-twitter-feeds.php')) {
+            deactivate_plugins('easy-twitter-feeds/easy-twitter-feeds.php');
+        }
+        if (is_plugin_active('easy-twitter-feeds-pro/easy-twitter-feeds.php')) {
+            deactivate_plugins('easy-twitter-feeds-pro/easy-twitter-feeds.php');
+        }
+    });
 
-//Script and style
-function etf_style_and_scripts() {
-   // wp_enqueue_style( 'h5ap-style', plugin_dir_url( __FILE__ ) . 'public/style/plyr.css', array(), ETF_PLUGIN_VERSION , 'all' );
-    wp_enqueue_script( 'widget-js', plugin_dir_url( __FILE__ ). 'public/js/widget.js' , array(), ETF_PLUGIN_VERSION , false );
-}
-add_action( 'wp_enqueue_scripts', 'etf_style_and_scripts' );
+} else {
+    define('ETF_VERSION', '1.2.9');
+    define('ETF_DIR_URL', plugin_dir_url(__FILE__));
+    define('ETF_DIR_PATH', plugin_dir_path(__FILE__));
+    define('ETF_IS_PRO', 'easy-twitter-feeds-pro/easy-twitter-feeds.php' === plugin_basename(__FILE__)); 
+    // Create a helper function for easy SDK access.
+    function etf_fs()
+    {
+        global $etf_fs;
 
+        if (!isset($etf_fs)) {
+             // Include Freemius SDK.
+            if (file_exists(dirname(__FILE__) . '/bplugins_sdk/init.php')) {
+                require_once dirname(__FILE__) . '/bplugins_sdk/init.php';
+            }
+            if (file_exists(dirname(__FILE__) . '/freemius/start.php')) {
+                require_once dirname(__FILE__) . '/freemius/start.php';
+            }
+            $etf_fs = fs_lite_dynamic_init(
+                array(
+                   'id'                  => '14839',
+                'slug'                => 'easy-twitter-feeds',
+                'premium_slug'        => 'easy-twitter-feeds-pro',
+                'type'                => 'plugin',
+                'public_key'          => 'pk_ba9a28a91e7b8f97d024123dad59c',
+                'is_premium'          => true,
+                'premium_suffix'      => 'Pro',
+                // If your plugin is a serviceware, set this option to false.
+                'has_premium_version' => true,
+                'has_addons'          => false,
+                'has_paid_plans'      => true,
+                'trial'               => array(
+                    'days'               => 7,
+                    'is_require_payment' => false,
+                ),
+                    'menu' => array(
+                        'slug'           => 'edit.php?post_type=easy-twitter-feeds',
+                        'first-path' => 'edit.php?post_type=easy-twitter-feeds',
+                        'contact' => false,
+                        'support' => false,
+                    )
+                )
+            );
+        }
 
-// Shortcode for Timeline
-function etf_shortcode_func($atts){
-	extract( shortcode_atts( array(
-
-		'username' => null,
-		'width' => null,
-		'height' => null,
-		'theme' => 'dark',
-		'title' => 'Tweets by',
-
-	), $atts ) );
-?>	
-<?php if (!empty($username)){ ?>
-<a class="twitter-timeline" 
-   data-width="<?php echo esc_attr($width); ?>" 
-   data-height="<?php echo esc_attr($height); ?>" 
-   data-theme="<?php echo esc_attr($theme); ?>" 
-   href="https://twitter.com/<?php echo esc_attr($username); ?>">
-   <?php echo esc_html($title); ?> <?php echo esc_html($username); ?>
-</a>
-
-<?php }else{ echo '<h2>You must enter your Twitter handle in the username attribute of the shortcode.  </h2>';}
-
-}
-add_shortcode('timeline','etf_shortcode_func');
-
-
-// Shortcode for Follow button
-function etf_shortcode_follow_func($atts) {
-    $atts = shortcode_atts(
-        array(
-            'username' => null,
-            'size'     => null,
-            'count'    => null,
-        ), 
-        $atts
-    );
-
-    if (!empty($atts['username'])) {
-        $username = sanitize_text_field($atts['username']);
-        $size = esc_attr($atts['size']);
-        $count = esc_attr($atts['count']);
-
-        return sprintf(
-            '<a href="https://twitter.com/%s" class="twitter-follow-button" data-size="%s" data-show-count="%s">Follow @%s</a>',
-            $username, $size, $count, esc_html($username)
-        );
-    } else {
-        return '<h2>' . esc_html__('You must enter your Twitter handle in the username attribute of the shortcode.', 'easy-twitter-feeds') . '</h2>';
+        return $etf_fs;
     }
+
+    etf_fs();
+    do_action('etf_fs_loaded');
+
+    class ETFPlugin
+    {
+        public function __construct()
+        {
+            add_action('init', [$this, 'onInit']);
+            add_action('wp_ajax_etfPipeChecker', [$this, 'etfPipeChecker']);
+            add_action('wp_ajax_nopriv_etfPipeChecker', [$this, 'etfPipeChecker']);
+            add_action('admin_init', [$this, 'registerSettings']);
+            add_action('rest_api_init', [$this, 'registerSettings']);
+        }
+
+        function onInit()
+        {
+            load_plugin_textdomain('easy-twitter', false, dirname(plugin_basename(__FILE__)) . '/languages');
+        }
+
+        // function etfPipeChecker()
+        // {
+        //     $nonce = $_POST['_wpnonce'] ?? null;
+        //     if (!wp_verify_nonce($nonce, 'wp_ajax'))
+        //     {
+        //         wp_send_json_error('Invalid Request');
+        //     }
+        //     wp_send_json_success([
+        //         'isPipe' => etfIsPremium(),
+        //     ]);
+        // }
+
+        public function etfPipeChecker() {
+            $nonce = $_POST['_wpnonce'];
+
+            if (!wp_verify_nonce($nonce, 'wp_ajax')) {
+                wp_send_json_error('Invalid Request');
+            }
+
+            wp_send_json_success([
+                'isPipe' => ETF_IS_PRO?\etf_fs()->is__premium_only() && \etf_fs()->can_use_premium_code() : false,
+            ]);
+        }
+
+        function registerSettings()
+        {
+            register_setting('etfUtils', 'etfUtils', [
+                'show_in_rest' => [
+                    'name' => 'etfUtils',
+                    'schema' => [
+                        'type' => 'string',
+                    ],
+                ],
+                'type' => 'string',
+                'default' => wp_json_encode([
+                    'nonce' => wp_create_nonce('wp_ajax'),
+                ]),
+                'sanitize_callback' => 'sanitize_text_field',
+            ]);
+        }
+
+    }
+    new ETFPlugin();
+    require_once ETF_DIR_PATH . 'inc/block.php';
+    require_once ETF_DIR_PATH . 'inc/CustomPost.php';
+    require_once ETF_DIR_PATH . 'inc/ShortCode.php';
 }
-add_shortcode('follow_button', 'etf_shortcode_follow_func');
+
+
+
+ 
+// define('ETF_VERSION', '1.2.8');
+// define('ETF_DIR_URL', plugin_dir_url(__FILE__));
+// define('ETF_DIR_PATH', plugin_dir_path(__FILE__));
+// // freemius integration
+
+// if (!function_exists('etf_fs'))
+// {
+//     // Create a helper function for easy SDK access.
+//     function etf_fs()
+//     {
+//         global $etf_fs;
+
+//         if (!isset($etf_fs))
+//         {
+//             require_once dirname(__FILE__) . '/freemius/start.php';
+//             $etf_fs = fs_dynamic_init(
+//                 array(
+//                     'id' => '14839',
+//                     'slug' => 'easy-twitter-feeds',
+//                     'premium_slug' => 'easy-twitter-feeds-pro',
+//                     'type' => 'plugin',
+//                     'public_key' => 'pk_ba9a28a91e7b8f97d024123dad59c',
+//                     'is_premium' => false,
+//                     'premium_suffix' => 'Pro',
+//                     'has_addons' => false,
+//                     'has_paid_plans' => true,
+//                     'trial' => array(
+//                         'days' => 7,
+//                         'is_require_payment' => false,
+//                     ),
+//                     'menu' => array(
+//                         'slug' => 'edit.php?post_type=easy-twitter-feeds',
+//                         'contact' => false,
+//                         'support' => false,
+//                     ),
+//                     'is_live' => true,
+//                 )
+//             );
+//         }
+
+//         return $etf_fs;
+//     }
+
+//     etf_fs();
+//     do_action('etf_fs_loaded');
+    
+// }
+
+// require_once ETF_DIR_PATH . 'inc/block.php';
+// require_once ETF_DIR_PATH . 'inc/CustomPost.php';
+// require_once ETF_DIR_PATH . 'inc/ShortCode.php';
+// function etfIsPremium()
+// {
+//     return etf_fs()->is__premium_only() && etf_fs()->can_use_premium_code();
+// }
+
+// class ETFPlugin
+// {
+//     public function __construct()
+//     {
+//         add_action('init', [$this, 'onInit']);
+//         add_action('wp_ajax_etfPipeChecker', [$this, 'etfPipeChecker']);
+//         add_action('wp_ajax_nopriv_etfPipeChecker', [$this, 'etfPipeChecker']);
+//         add_action('admin_init', [$this, 'registerSettings']);
+//         add_action('rest_api_init', [$this, 'registerSettings']);
+//     }
+
+//     function onInit()
+//     {
+//         load_plugin_textdomain('easy-twitter', false, dirname(plugin_basename(__FILE__)) . '/languages');
+//     }
+
+//     function etfPipeChecker()
+//     {
+//         $nonce = $_POST['_wpnonce'] ?? null;
+//         if (!wp_verify_nonce($nonce, 'wp_ajax'))
+//         {
+//             wp_send_json_error('Invalid Request');
+//         }
+//         wp_send_json_success([
+//             'isPipe' => etfIsPremium(),
+//         ]);
+//     }
+
+//     function registerSettings()
+//     {
+//         register_setting('etfUtils', 'etfUtils', [
+//             'show_in_rest' => [
+//                 'name' => 'etfUtils',
+//                 'schema' => [
+//                     'type' => 'string',
+//                 ],
+//             ],
+//             'type' => 'string',
+//             'default' => wp_json_encode([
+//                 'nonce' => wp_create_nonce('wp_ajax'),
+//             ]),
+//             'sanitize_callback' => 'sanitize_text_field',
+//         ]);
+//     }
+
+// }
+// new ETFPlugin();

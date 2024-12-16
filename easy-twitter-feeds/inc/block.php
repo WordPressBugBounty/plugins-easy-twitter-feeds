@@ -24,7 +24,7 @@ class ETFTwitterFeeds{
 		wp_set_script_translations( 'etf-twitter-feed-script', 'twitter-feed', ETF_DIR_PATH . 'languages' );
 
 		$className = $className ?? '';
-		$extraClass = etfIsPremium() ? 'premium' : 'free';
+		$extraClass = ETF_IS_PRO ? 'premium' : 'free';
 		$blockClassName = "wp-block-etf-twitter-feed $extraClass $className align$align";
 
 		ob_start(); ?>

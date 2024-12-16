@@ -3,7 +3,7 @@ Contributors: bplugins, abuhayat, charlescormier, shehabulislam, btechnologies, 
 Tags: Twitter Feed, Embed Twitter , X Post, follow button, X
 Requires at least: 4.0
 Tested up to: 6.7.1
-Stable tag: 1.2.8
+Stable tag: 1.2.9
 Requires PHP: 7.1
 Donate link: https://www.buymeacoffee.com/abuhayat
 License: GPLv3 or later
@@ -182,6 +182,9 @@ No, you don't need to set anything before using the ShortCode.
 
 == Upgrade Notice ==
 
+= 1.2.9 - 16 Dec, 24 =
+* pro feature problem fixed
+
 = 1.2.8 - 13 Dec, 24 =
 * Pro feature adeed
 
@@ -215,6 +218,9 @@ No, you don't need to set anything before using the ShortCode.
 * Initial Release
 
 == Changelog ==
+
+= 1.2.9 - 16 Dec, 24 =
+* pro feature problem fixed
 
 = 1.2.8 - 13 Dec, 24 =
 * Pro feature adeed
