@@ -3,7 +3,7 @@ Contributors: bplugins, abuhayat, charlescormier, shehabulislam, btechnologies, 
 Tags: Twitter Feed, Embed Twitter , X Post, follow button, X
 Requires at least: 4.0
 Tested up to: 6.7.2
-Stable tag: 1.2.10
+Stable tag: 1.2.11
 Requires PHP: 7.1
 Donate link: https://www.buymeacoffee.com/abuhayat
 License: GPLv3 or later
@@ -182,6 +182,9 @@ No, you don't need to set anything before using the ShortCode.
 
 == Upgrade Notice ==
 
+= 1.2.11 - 11 April, 25 =
+* Some issues fixed;
+
 = 1.2.10 - 27 Jan, 24 =
 * Freemius sdk updates
 
@@ -221,6 +224,9 @@ No, you don't need to set anything before using the ShortCode.
 * Initial Release
 
 == Changelog ==
+
+= 1.2.11 - 11 April, 25 =
+* Some issues fixed;
 
 = 1.2.10 - 27 Jan, 24 =
 * Freemius sdk updates
