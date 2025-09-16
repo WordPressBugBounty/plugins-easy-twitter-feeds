@@ -1,10 +1,10 @@
-=== Feeds For Twitter  ===
+=== Feeds For Twitter – Embed Tweets with Real-Time Updates ===
 Contributors: bplugins, abuhayat, charlescormier, shehabulislam, btechnologies, freemius
 Tags: Twitter Feed, Embed Twitter , X Post, follow button, X
 Requires at least: 4.0
-Tested up to: 6.7.2
-Stable tag: 1.2.11
-Requires PHP: 7.1
+Tested up to: 6.8.1  
+Stable tag: 1.2.11   
+Requires PHP: 7.1 
 Donate link: https://www.buymeacoffee.com/abuhayat
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
