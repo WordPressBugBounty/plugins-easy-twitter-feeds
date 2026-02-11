@@ -1,10 +1,10 @@
-=== Feeds For Twitter – Embed Tweets with Real-Time Updates ===
+=== Feeds for Twitter – Embed Social Media Posts with Live Updates ===
 Contributors: bplugins, abuhayat, charlescormier, shehabulislam, btechnologies, freemius
 Tags: Twitter Feed, Embed Twitter , X Post, follow button, X
-Requires at least: 4.0
-Tested up to: 6.8.1  
-Stable tag: 1.2.11   
-Requires PHP: 7.1 
+Requires at least: 6.5+
+Tested up to: 6.9 
+Stable tag: 1.2.11
+Requires PHP: 7.1
 Donate link: https://www.buymeacoffee.com/abuhayat
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -27,7 +27,7 @@ Seamlessly integrate Twitter content into your WordPress website with Easy Twitt
 
 ### Important Notice: This plugin only works with X premium accounts.
 
-[Plugin Demo](https://bplugins.com/products/easy-twitter-feeds) | [Get Pro Version](https://bplugins.com/products/easy-twitter-feeds/#pricing)
+[Plugin Demo](https://bplugins.com/products/easy-twitter-feeds) | [Get Pro Version](https://bplugins.com/products/easy-twitter-feeds/pricing)
 
 
 ### Easy Twitter Feed Features

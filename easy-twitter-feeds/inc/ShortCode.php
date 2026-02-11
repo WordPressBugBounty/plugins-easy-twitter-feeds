@@ -24,17 +24,17 @@ class ETFShortCode{
         
         ob_start();
         if (!empty($username)){  ?>
+        <div>
+            <a class="twitter-timeline" data-width="<?php echo esc_attr($width); ?>" data-lang="<?php echo esc_attr($lang);  ?>"
+                data-chrome="<?php echo esc_attr($chrome);  ?>" data-height="<?php echo esc_attr($height); ?>"
+                data-theme="<?php echo esc_attr($theme); ?>" href="https://twitter.com/<?php echo esc_attr($username); ?>"
+                rel=”nofollow”>
+                <?php echo esc_html($title); ?> <?php echo esc_html($username); ?>
+            </a>
 
-<a class="twitter-timeline" data-width="<?php echo esc_attr($width); ?>" data-lang="<?php echo esc_attr($lang);  ?>"
-    data-chrome="<?php echo esc_attr($chrome);  ?>" data-height="<?php echo esc_attr($height); ?>"
-    data-theme="<?php echo esc_attr($theme); ?>" href="https://twitter.com/<?php echo esc_attr($username); ?>"
-    rel=”nofollow”>
-    <?php echo esc_html($title); ?> <?php echo esc_html($username); ?>
-</a>
-
-<?php }else{ echo '<h2>You must enter your Twitter handle in the username attribute of the shortcode.  </h2>';}
-
-        return ob_get_clean();
+            <?php }else{ echo '<h2>You must enter your Twitter handle in the username attribute of the shortcode.  </h2>';}
+        ?></div> 
+        <?php return ob_get_clean();
     }
 
     function followButtonShortCode( $atts ){
@@ -46,15 +46,15 @@ class ETFShortCode{
     
         ob_start();
         if (!empty($username)){ ?>
-
-<a href="https://twitter.com/<?php echo esc_attr($username); ?>" class="twitter-follow-button"
-    data-size="<?php echo esc_attr($size); ?>" data-show-count="<?php echo esc_attr($count); ?>">
-    Follow @<?php echo esc_html($username); ?>
-</a>
-
-<?php }else{ echo '<h2>You must enter your Twitter handle in the username attribute of the shortcode.  </h2>';}
-    
-        return ob_get_clean();
+        <div>
+            <a href="https://twitter.com/<?php echo esc_attr($username); ?>" class="twitter-follow-button"
+                data-size="<?php echo esc_attr($size); ?>" data-show-count="<?php echo esc_attr($count); ?>">
+                Follow @<?php echo esc_html($username); ?>
+            </a>
+            <?php }else{ echo '<h2>You must enter your Twitter handle in the username attribute of the shortcode.  </h2>';}
+        ?>
+        </div>
+        <?php return ob_get_contents();
     }
 }
 new ETFShortCode;

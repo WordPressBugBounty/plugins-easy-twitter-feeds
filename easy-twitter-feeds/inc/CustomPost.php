@@ -3,7 +3,7 @@ class ETFCustomPost{
 	public $post_type = 'easy-twitter-feeds';
 
 	public function __construct(){
-		add_action( 'admin_enqueue_scripts', [$this, 'adminEnqueueScripts'] );
+		 
 		add_action( 'init', [$this, 'onInit'] );
 		add_shortcode( 'etf', [$this, 'onAddShortcode'] );
 		add_filter( 'manage_easy-twitter-feeds_posts_columns', [$this, 'manageETFPostsColumns'], 10 );
@@ -13,13 +13,7 @@ class ETFCustomPost{
 		add_action('admin_action_duplicate_post', array($this, 'etf_duplicate_post'));
 	}
 
-	function adminEnqueueScripts( $hook ){
-		if( 'edit.php' === $hook || 'post.php' === $hook ){
-			wp_enqueue_style( 'etf-admin-post', ETF_DIR_URL . 'dist/admin-post.css', [], ETF_VERSION );
-			wp_enqueue_script( 'etf-admin-post', ETF_DIR_URL . 'dist/admin-post.js', [], ETF_VERSION );
-			wp_set_script_translations( 'etf-admin-post', 'easy-twitter', ETF_DIR_PATH . 'languages' );
-		}
-	}
+	 
 
 	function onInit(){
 		$menuIcon = "<svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' width='48' height='48' viewBox='0 0 48 48'>
@@ -51,7 +45,7 @@ class ETFCustomPost{
 			'supports'				=> [ 'title', 'editor' ],
 			'template'				=> [ ['etf/twitter-feed'] ],
 			'template_lock'			=> 'all',
-			// 'show_in_menu'          => false
+			'show_in_menu'        	=> 'easy-twitter-feeds'
 		]); // Register Post Type
 	}
 
@@ -76,8 +70,8 @@ class ETFCustomPost{
 
 	function manageETFPostsCustomColumns( $column_name, $post_ID ) {
 		if ( $column_name == 'shortcode' ) {
-			echo "<div class='bPlAdminShortcode' id='bPlAdminShortcode-$post_ID'>
-				<input value='[etf id=$post_ID]' onclick='copyBPlAdminShortcode($post_ID)'>
+			echo "<div class='etfAdminShortcode' id='etfAdminShortcode-$post_ID'>
+				<input value='[etf id=$post_ID]' onclick='eftHandleShortcode($post_ID)'>
 				<span class='tooltip'>Copy To Clipboard</span>
 			</div>";
 		}
