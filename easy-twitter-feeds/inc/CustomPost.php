@@ -23,13 +23,15 @@ class ETFCustomPost{
 			'labels'				=> [
 				'name'			=> __( 'Easy Twitter', 'easy-twitter'),
 				'singular_name'	=> __( 'Easy Twitter', 'easy-twitter' ),
+				'menu_name'     => __( 'Easy Twitter', 'easy-twitter' ),
+				'all_items'     => __( 'All Easy Twitter', 'easy-twitter' ),
 				'add_new'		=> __( 'Add New', 'easy-twitter' ),
-				'add_new_item'	=> __( 'Add New', 'easy-twitter' ),
+				'add_new_item'	=> __( '&#8627; Add New', 'easy-twitter' ),
 				'edit_item'		=> __( 'Edit', 'easy-twitter' ),
 				'new_item'		=> __( 'New', 'easy-twitter' ),
 				'view_item'		=> __( 'View', 'easy-twitter' ),
 				'search_items'	=> __( 'Search', 'easy-twitter'),
-				'not_found'		=> __( 'Sorry, we couldn\'t find the that you are looking for.', 'easy-twitter' )
+				'not_found'		=> __( 'Sorry, we couldn\'t find the post that you are looking for.', 'easy-twitter' )
 			],
 			'public'				=> false,
 			'show_ui'				=> true, 		
@@ -45,7 +47,6 @@ class ETFCustomPost{
 			'supports'				=> [ 'title', 'editor' ],
 			'template'				=> [ ['etf/twitter-feed'] ],
 			'template_lock'			=> 'all',
-			'show_in_menu'        	=> 'easy-twitter-feeds'
 		]); // Register Post Type
 	}
 

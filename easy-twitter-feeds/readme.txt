@@ -2,8 +2,8 @@
 Contributors: bplugins, abuhayat, charlescormier, shehabulislam, btechnologies, freemius
 Tags: Twitter Feed, Embed Twitter , X Post, follow button, X
 Requires at least: 6.5+
-Tested up to: 6.9 
-Stable tag: 1.2.11
+Tested up to: 6.8.3
+Stable tag: 1.2.12
 Requires PHP: 7.1
 Donate link: https://www.buymeacoffee.com/abuhayat
 License: GPLv3 or later
@@ -27,7 +27,7 @@ Seamlessly integrate Twitter content into your WordPress website with Easy Twitt
 
 ### Important Notice: This plugin only works with X premium accounts.
 
-[Plugin Demo](https://bplugins.com/products/easy-twitter-feeds) | [Get Pro Version](https://bplugins.com/products/easy-twitter-feeds/pricing)
+[Plugin Demo](https://bplugins.com/products/easy-twitter-feeds) | [Get Pro Version](https://bplugins.com/products/easy-twitter-feeds/#pricing)
 
 
 ### Easy Twitter Feed Features
@@ -182,6 +182,9 @@ No, you don't need to set anything before using the ShortCode.
 
 == Upgrade Notice ==
 
+= 1.2.12 - 13 April, 26 =
+* Added modern dashboard;
+
 = 1.2.11 - 11 April, 25 =
 * Some issues fixed;
 
@@ -224,6 +227,9 @@ No, you don't need to set anything before using the ShortCode.
 * Initial Release
 
 == Changelog ==
+
+= 1.2.12 - 13 April, 26 =
+* Added modern dashboard;
 
 = 1.2.11 - 11 April, 25 =
 * Some issues fixed;

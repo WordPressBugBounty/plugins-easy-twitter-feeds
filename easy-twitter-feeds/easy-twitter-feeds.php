@@ -4,13 +4,13 @@
  * Plugin Name: Easy Twitter Feeds
  * Plugin URI:  https://twitter-feed.bplugins.com/
  * Description: You can Embed your Twitter timeline feed, Follow widget anywhere in WordPress using Shortcode.  
- * Version: 1.2.11
+ * Version: 1.2.12
  * Author: bPlugins LLC
  * Author URI: https://bplugins.com/
  * Text Domain: easy-twitter
  * Domain Path:  /languages
  * License: GPLv3
- * @fs_free_only, /freemius-lite, bsdk_config.json, /inc/admin-menu-free.php
+ * @fs_free_only, /freemius-lite, bsdk_config.json,
  */
 // ABS PATH
 if ( !defined( 'ABSPATH' ) ) {
@@ -22,7 +22,7 @@ if ( function_exists( 'etf_fs' ) ) {
     // Constants
     define( 'ETF_ASSETS_DIR', plugin_dir_url( __FILE__ ) . 'assets/' );
     define( 'ETF_IS_PRO', file_exists( dirname( __FILE__ ) . '/freemius/start.php' ) );
-    define( 'ETF_VERSION', ( isset( $_SERVER['HTTP_HOST'] ) && 'localhost' === $_SERVER['HTTP_HOST'] ? time() : '1.2.11' ) );
+    define( 'ETF_VERSION', ( isset( $_SERVER['HTTP_HOST'] ) && 'localhost' === $_SERVER['HTTP_HOST'] ? time() : '1.2.12' ) );
     define( 'ETF_DIR_URL', plugin_dir_url( __FILE__ ) );
     define( 'ETF_DIR_PATH', plugin_dir_path( __FILE__ ) );
     if ( !function_exists( 'etf_fs' ) ) {
@@ -33,6 +33,7 @@ if ( function_exists( 'etf_fs' ) ) {
                 // Include Freemius SDK.
                 if ( ETF_IS_PRO ) {
                     require_once dirname( __FILE__ ) . '/freemius/start.php';
+                    require_once dirname( __FILE__ ) . '/inc/LicenseActivation.php';
                 } else {
                     require_once dirname( __FILE__ ) . '/freemius-lite/start.php';
                 }
@@ -42,7 +43,7 @@ if ( function_exists( 'etf_fs' ) ) {
                     'premium_slug'        => 'easy-twitter-feeds-pro',
                     'type'                => 'plugin',
                     'public_key'          => 'pk_ba9a28a91e7b8f97d024123dad59c',
-                    'is_premium'          => false,
+                    'is_premium'          => true,
                     'premium_suffix'      => 'Pro',
                     'has_premium_version' => true,
                     'has_addons'          => false,
@@ -51,15 +52,11 @@ if ( function_exists( 'etf_fs' ) ) {
                         'days'               => 7,
                         'is_require_payment' => false,
                     ),
-                    'menu'                => ( ETF_IS_PRO ? array(
-                        'slug'       => 'easy-twitter-feeds',
-                        'first-path' => 'admin.php?page=easy-twitter-feeds',
+                    'menu'                => array(
+                        'slug'       => 'edit.php?post_type=easy-twitter-feeds',
+                        'first-path' => 'edit.php?post_type=easy-twitter-feeds&page=easy-twitter-feeds#/pricing',
                         'support'    => false,
-                    ) : array(
-                        'slug'       => 'easy-twitter-feeds',
-                        'first-path' => 'admin.php?page=easy-twitter-feeds#/pricing',
-                        'support'    => false,
-                    ) ),
+                    ),
                 );
                 $etf_fs = ( ETF_IS_PRO ? fs_dynamic_init( $etfConfig ) : fs_lite_dynamic_init( $etfConfig ) );
             }
@@ -94,11 +91,7 @@ if ( function_exists( 'etf_fs' ) ) {
         }
 
         public function load_classes() {
-            if ( ETF_IS_PRO ) {
-                require_once plugin_dir_path( __FILE__ ) . '/inc/admin-menu-pro.php';
-            } else {
-                require_once plugin_dir_path( __FILE__ ) . '/inc/admin-menu-free.php';
-            }
+            require_once plugin_dir_path( __FILE__ ) . '/inc/admin-menu.php';
         }
 
         public function adminEnqueueScripts( $hook ) {
