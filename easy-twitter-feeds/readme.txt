@@ -1,13 +1,13 @@
-=== Feeds for Twitter – Embed Social Media Posts with Live Updates ===
+=== Easy Twitter Feeds – Embed Social Media Posts with Live Updates ===
 Contributors: bplugins, abuhayat, charlescormier, shehabulislam, btechnologies, freemius
 Tags: Twitter Feed, Embed Twitter , X Post, follow button, X
-Requires at least: 6.5+
-Tested up to: 6.8.3
-Stable tag: 1.2.12
-Requires PHP: 7.1
+Requires at least: 6.5
+Tested up to: 6.9
+Stable tag: 1.2.13
+Requires PHP: 7.4
 Donate link: https://www.buymeacoffee.com/abuhayat
-License: GPLv3 or later
-License URI: http://www.gnu.org/licenses/gpl-3.0.html
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Embed Twitter Timeline/Feed, Post, Video, Hashtag, Follow Button, Tweet Button easily. This plugin is lightweight but super powerful.
 
@@ -32,27 +32,18 @@ Seamlessly integrate Twitter content into your WordPress website with Easy Twitt
 
 ### Easy Twitter Feed Features
 - **Timeline:** Add Twitter Timeline.
-
 - **Timeline Style:** Add style on Timeline feed Height, Width, Scrolling, and Theme.
-
 - **Follow Button:** Add Twitter Follow Button.
-
 - **Follow Button Style:** Add Button style color, Background, Font Size, and Padding.
+- **Tweet Button:** Add Tweet Button with tweet text.
 
 
 ### Easy Twitter Feed Pro Features
 - **Timeline:** Hide the timeline header and footer.
-
 - **Timeline Language:** Translate the timeline to any language.
-
 - **Button Icon:** Add Twitter's latest icon.
-
-- **Tweet Button:** Add Tweet Button with tweet text.
-
 - **Hashtag:** Add a Hashtag with tweet text.
-
 - **Video:** Add a video from any specific Twitter post.
-
 - **Post:** Add any specific Twitter post.
 
 
@@ -156,11 +147,8 @@ You can customize the Follow button according to the ShortCode below…
 🔥 **[Button Block](https://wordpress.org/plugins/button-block/)** – Get fully customizable & multi-functional buttons.
 
 
+
 == Installation ==
-
-This section describes how to install the plugin and get it working.
-
-e.g.
 
 1. Upload `easy-twitter-feeds` to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
@@ -228,6 +216,11 @@ No, you don't need to set anything before using the ShortCode.
 
 == Changelog ==
 
+= 1.2.13 - 18 May, 26 =
+* Update: Removed restricted "Locked Fields" to improve user flexibility
+* New: Tweet Button: Add Tweet Button with tweet text.
+* Improved: Overall code quality and strengthened security protocols.
+
 = 1.2.12 - 13 April, 26 =
 * Added modern dashboard;
 
@@ -265,3 +258,30 @@ No, you don't need to set anything before using the ShortCode.
 
 = 1.0 =
 * Initial Release
+
+
+= X (Formerly Twitter) Widgets =
+* **Source:** [https://x.com/](https://x.com/)
+* **Purpose:** This plugin embeds X (Twitter) features such as Timelines, Follow Buttons, and Tweet Buttons using the official X platform widgets. 
+* **External Services:** When a webpage containing these widgets loads, it communicates with X's servers (e.g., `platform.twitter.com` and `syndication.twitter.com`) to fetch the content. During this process, X may collect certain information such as IP addresses, browser types, operating systems, and referring web pages.[https://platform.twitter.com/widgets.js]
+* **Terms of Service:** [https://x.com/en/tos](https://x.com/en/tos)
+* **Privacy Policy:** [https://x.com/en/privacy](https://x.com/en/privacy)
+
+= bpl-tools =
+* Source / GitHub: https://github.com/bPlugins/bpl-tools
+* License: GPL-2.0-or-later – https://www.gnu.org/licenses/gpl-2.0.html
+* Purpose: Shared utility library providing admin dashboard components and common Gutenberg editor controls.
+* External Services: The library may connect to bPlugins, WordPress.org, and Freemius services for product data and checkout functionality. See full details: https://github.com/bPlugins/bpl-tools#external-requests--why-they-are-made
+
+= Freemius Lite SDK =
+
+* **Source:** [https://bplugins.com/](https://bplugins.com/)
+* **GitHub:** [https://github.com/bPlugins/freemius-lite-sdk](https://github.com/bPlugins/freemius-lite-sdk)
+* **License:** GPL-2.0-or-later – [https://www.gnu.org/licenses/gpl-2.0.html](https://www.gnu.org/licenses/gpl-2.0.html)
+* **Purpose:** Provides an opt-in consent form for usage tracking and analytics to help improve the plugin. No data is sent before explicit user consent.
+* **External Services:** Communicates with `api.bplugins.com` (activation events) and `wp.freemius.com` (opt-in processing) only after user opt-in. See [bPlugins Privacy Policy](https://bplugins.com/privacy-policy) and [Freemius Privacy Policy](https://freemius.com/privacy/).
+
+== Source Code ==
+
+You can find the source code, report bugs, and contribute to the development of this plugin on our GitHub repository:
+[**Easy Twitter Feeds on GitHub**](https://github.com/bPlugins/easy-twitter-feeds-free)

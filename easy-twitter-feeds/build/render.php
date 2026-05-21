@@ -1,9 +1,6 @@
 <?php
     if ( ! defined( 'ABSPATH' ) ) exit;
-    extract( $attributes );
     $id = wp_unique_id( 'etfTwitterFeed-' );
-     
-    $extraClass = etfIsPremium() ? 'premium' : 'free';
 	?>
     <div  
     <?php echo wp_kses_post( get_block_wrapper_attributes() ); ?>

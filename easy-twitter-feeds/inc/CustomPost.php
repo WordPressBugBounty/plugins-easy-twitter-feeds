@@ -1,5 +1,6 @@
 <?php
-class ETFCustomPost{
+if ( ! defined( 'ABSPATH' ) ) exit;
+class EASY_TF_CustomPost{
 	public $post_type = 'easy-twitter-feeds';
 
 	public function __construct(){
@@ -10,10 +11,8 @@ class ETFCustomPost{
 		add_action( 'manage_easy-twitter-feeds_posts_custom_column', [$this, 'manageETFPostsCustomColumns'], 10, 2 );
 		add_action( 'use_block_editor_for_post', [$this, 'useBlockEditorForPost'], 999, 2 );
 		add_action('post_row_actions', array($this, 'etf_add_duplicate_link'), 10, 2);
-		add_action('admin_action_duplicate_post', array($this, 'etf_duplicate_post'));
+		add_action('admin_action_easy_tf_duplicate_post', array($this, 'admin_action_etf_duplicate_post'));
 	}
-
-	 
 
 	function onInit(){
 		$menuIcon = "<svg xmlns='http://www.w3.org/2000/svg' x='0px' y='0px' width='48' height='48' viewBox='0 0 48 48'>
@@ -21,17 +20,17 @@ class ETFCustomPost{
 
 		register_post_type( 'easy-twitter-feeds', [
 			'labels'				=> [
-				'name'			=> __( 'Easy Twitter', 'easy-twitter'),
-				'singular_name'	=> __( 'Easy Twitter', 'easy-twitter' ),
-				'menu_name'     => __( 'Easy Twitter', 'easy-twitter' ),
-				'all_items'     => __( 'All Easy Twitter', 'easy-twitter' ),
-				'add_new'		=> __( 'Add New', 'easy-twitter' ),
-				'add_new_item'	=> __( '&#8627; Add New', 'easy-twitter' ),
-				'edit_item'		=> __( 'Edit', 'easy-twitter' ),
-				'new_item'		=> __( 'New', 'easy-twitter' ),
-				'view_item'		=> __( 'View', 'easy-twitter' ),
-				'search_items'	=> __( 'Search', 'easy-twitter'),
-				'not_found'		=> __( 'Sorry, we couldn\'t find the post that you are looking for.', 'easy-twitter' )
+				'name'			=> __( 'Easy Twitter', 'easy-twitter-feeds'),
+				'singular_name'	=> __( 'Easy Twitter', 'easy-twitter-feeds' ),
+				'menu_name'     => __( 'Easy Twitter', 'easy-twitter-feeds' ),
+				'all_items'     => __( 'All Easy Twitter', 'easy-twitter-feeds' ),
+				'add_new'		=> __( 'Add New', 'easy-twitter-feeds' ),
+				'add_new_item'	=> __( '&#8627; Add New', 'easy-twitter-feeds' ),
+				'edit_item'		=> __( 'Edit', 'easy-twitter-feeds' ),
+				'new_item'		=> __( 'New', 'easy-twitter-feeds' ),
+				'view_item'		=> __( 'View', 'easy-twitter-feeds' ),
+				'search_items'	=> __( 'Search', 'easy-twitter-feeds'),
+				'not_found'		=> __( 'Sorry, we couldn\'t find the post that you are looking for.', 'easy-twitter-feeds' )
 			],
 			'public'				=> false,
 			'show_ui'				=> true, 		
@@ -51,14 +50,20 @@ class ETFCustomPost{
 	}
 
 	function onAddShortcode( $atts ) {
-		$post_id = $atts['id'];
+		if ( empty( $atts['id'] ) ) { return ''; }
 
-		$post = get_post( $post_id );
+		$post_id = (int) $atts['id'];
+		$post    = get_post( $post_id );
+
+		if ( ! $post || 'easy-twitter-feeds' !== $post->post_type || 'publish' !== $post->post_status ) {
+			return '';	
+		}
+
 		$blocks = parse_blocks( $post->post_content );
+		if ( empty( $blocks[0] ) ) { return ''; }
 
 		ob_start();
-		echo render_block($blocks[0]);
-
+		echo render_block( $blocks[0] ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		return ob_get_clean();
 	}
 
@@ -71,10 +76,15 @@ class ETFCustomPost{
 
 	function manageETFPostsCustomColumns( $column_name, $post_ID ) {
 		if ( $column_name == 'shortcode' ) {
-			echo "<div class='etfAdminShortcode' id='etfAdminShortcode-$post_ID'>
-				<input value='[etf id=$post_ID]' onclick='eftHandleShortcode($post_ID)'>
-				<span class='tooltip'>Copy To Clipboard</span>
-			</div>";
+			printf(
+				/* phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped */
+				'<div class="etfAdminShortcode" id="etfAdminShortcode-%1$s">
+					<input value="[etf id=%1$s]" onclick="eftHandleShortcode(%1$s)">
+					<span class="tooltip">%2$s</span>
+				</div>',
+				esc_attr( $post_ID ),
+				esc_html__( 'Copy To Clipboard', 'easy-twitter-feeds' )
+			);
 		}
 	}
 
@@ -85,28 +95,38 @@ class ETFCustomPost{
 		return $use;
 	}
 
-	 function etf_add_duplicate_link($actions, $post)
+	function etf_add_duplicate_link($actions, $post)
 	{
-	   if ($post->post_type == 'easy-twitter-feeds') {
-		  $actions['duplicate'] = '<a href="' . admin_url("admin.php?action=duplicate_post&post={$post->ID}") . '">Duplicate</a>';
-		  
+	   if ($post->post_type == 'easy-twitter-feeds') { 
+		  $url = admin_url("admin.php?action=easy_tf_duplicate_post&post={$post->ID}");
+		  $nonce_url = wp_nonce_url($url, 'etf_duplicate_post_' . $post->ID);
+		  $actions['duplicate'] = sprintf(
+			  '<a href="%s">%s</a>',
+			  esc_url( $nonce_url ),
+			  esc_html__( 'Duplicate', 'easy-twitter-feeds' )
+		  );
 	   }
 	   return $actions;
 	}
 
-	public function etf_duplicate_post()
+	public function admin_action_etf_duplicate_post()
     {
-        if (!isset($_GET['post']) || !current_user_can('edit_posts')) {
-            wp_die('Permission denied');
+        if ( ! isset( $_GET['post'] ) || ! isset( $_GET['_wpnonce'] ) || ! current_user_can( 'edit_posts' ) ) {
+            wp_die( 'Permission denied' );
         }
 
-        $post_id = $_GET['post'];
-        $post = get_post($post_id);
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+        $post_id = absint( wp_unslash( $_GET['post'] ) );
+        check_admin_referer( 'etf_duplicate_post_' . $post_id );
 
-        if (!$post) {
-            wp_die('Invalid post ID');
-        }
-
+        $post = get_post( $post_id );
+		if ( ! $post || 'easy-twitter-feeds' !== $post->post_type ) {
+			wp_die( 'Invalid post' );
+		}
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			wp_die( 'Permission denied' );
+		}
+ 
         $new_post = array(
             'post_title' => $post->post_title . '(copy)',
             'post_content' => $post->post_content,
@@ -114,9 +134,12 @@ class ETFCustomPost{
             'post_type' => $post->post_type,
         );
 
-        $new_post_id = wp_insert_post($new_post);
-        wp_redirect(admin_url("post.php?action=edit&post={$new_post_id}"));
-        exit;
+        $new_post_id = wp_insert_post( $new_post, true ); // second arg = return WP_Error
+		if ( is_wp_error( $new_post_id ) ) {
+			wp_die( esc_html( $new_post_id->get_error_message() ) );
+		}
+		wp_safe_redirect( admin_url( 'post.php?action=edit&post=' . $new_post_id ) );
+		exit;
     }
 }
-new ETFCustomPost();
+new EASY_TF_CustomPost();

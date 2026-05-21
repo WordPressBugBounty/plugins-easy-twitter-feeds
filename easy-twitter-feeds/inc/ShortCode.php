@@ -1,18 +1,19 @@
 <?php
-class ETFShortCode{
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+class EASY_TF_ShortCode{
 	public function __construct(){
-		add_action( 'admin_enqueue_scripts', [$this, 'enqueueScripts'] );
-		add_action( 'wp_enqueue_scripts', [$this, 'enqueueScripts'] );
+		add_action( 'wp_enqueue_scripts', [$this, 'registerScripts'] );
 		add_shortcode( 'timeline', [$this, 'timelineShortCode'] );
 		add_shortcode( 'follow_button', [$this, 'followButtonShortCode'] );
 	}
-
-    function enqueueScripts(){
-        wp_enqueue_script( 'widget-js', ETF_DIR_URL . 'assets/js/widget.js' , array(), ETF_VERSION , false );
+ 
+    function registerScripts(){
+        wp_register_script( 'easy-tf-widget', 'https://platform.twitter.com/widgets.js', [], EASY_TF_VERSION, true );
     }
 
     function timelineShortCode( $atts ){
-        extract( shortcode_atts( array(
+        wp_enqueue_script( 'easy-tf-widget' ); 
+        $a = shortcode_atts( array(
             'username' => null,
             'width' => null,
             'height' => null,				
@@ -20,7 +21,14 @@ class ETFShortCode{
             'title' => null,
             'lang' => null,		
             'chrome' => null,
-        ), $atts ) );
+        ), $atts );
+        $username = $a['username'];
+        $width = $a['width'];
+        $height = $a['height'];
+        $theme = $a['theme'];
+        $title = $a['title'];
+        $lang = $a['lang'];
+        $chrome = $a['chrome'];
         
         ob_start();
         if (!empty($username)){  ?>
@@ -38,11 +46,15 @@ class ETFShortCode{
     }
 
     function followButtonShortCode( $atts ){
-        extract( shortcode_atts( array(
+        wp_enqueue_script( 'easy-tf-widget' );
+        $a = shortcode_atts( array(
             'username' => null,
             'size' => null,
             'count' => null,
-        ), $atts ) );
+        ), $atts );
+        $username = $a['username'];
+        $size = $a['size'];
+        $count = $a['count'];
     
         ob_start();
         if (!empty($username)){ ?>
@@ -54,7 +66,7 @@ class ETFShortCode{
             <?php }else{ echo '<h2>You must enter your Twitter handle in the username attribute of the shortcode.  </h2>';}
         ?>
         </div>
-        <?php return ob_get_contents();
+        <?php return ob_get_clean();
     }
 }
-new ETFShortCode;
+new EASY_TF_ShortCode;
