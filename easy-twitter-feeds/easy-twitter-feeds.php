@@ -3,7 +3,7 @@
  * Plugin Name: Easy Twitter Feeds – Embed Social Media Posts with Live Updates
  * Plugin URI:  https://twitter-feed.bplugins.com/
  * Description: You can Embed your Twitter timeline feed, Follow widget anywhere in WordPress using Shortcode.  
- * Version: 1.2.14
+ * Version: 1.2.15
  * Author: bPlugins LLC
  * Author URI: https://bplugins.com/
  * Text Domain: easy-twitter-feeds
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
     if (defined('WP_DEBUG') && WP_DEBUG === true) {
         define('EASY_TF_VERSION', time());
     } else {
-        define('EASY_TF_VERSION', '1.2.14');
+        define('EASY_TF_VERSION', '1.2.15');
     }
     define( 'EASY_TF_DIR_URL', plugin_dir_url( __FILE__ ) );
     define( 'EASY_TF_DIR_PATH', plugin_dir_path( __FILE__ ) );
@@ -66,14 +66,30 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
             $this->load_classes();
             add_action( 'init', [$this, 'onInit'] );
             add_action('admin_enqueue_scripts', [$this, 'adminEnqueueScripts']);
+            add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), [$this, 'plugin_action_links'] );
         }
 
         function onInit(){
             register_block_type( __DIR__ . '/build' );
         }
 
+        public function plugin_action_links( $links ) {
+            // Black Friday action link (active until December 5, 2026)
+            if ( time() <= 1796515199 && ( ! function_exists( 'easy_tf_fs' ) || ! easy_tf_fs()->can_use_premium_code() ) ) {
+                $bfcmUrl = 'https://bplugins.com/products/easy-twitter-feeds/pricing/?utm_source=plugins_page&utm_medium=bfcm_action_link&utm_campaign=bfcm2026';
+                $links['bfcm'] = sprintf(
+                    '<a href="%s" style="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+                    esc_url( $bfcmUrl ),
+                    'color:#d63638;font-weight:bold;',
+                    __( 'Black Friday: Save 45%!', 'easy-twitter-feeds' )
+                );
+            }
+            return $links;
+        }
+
         public function load_classes(){
             require_once plugin_dir_path(__FILE__) . '/inc/admin-menu.php';
+            require_once plugin_dir_path(__FILE__) . '/inc/BFCMNotice.php';
         }
  
         public function adminEnqueueScripts($hook)

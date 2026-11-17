@@ -36,6 +36,13 @@ if(!class_exists('EASY_TF_AdminMenu')) {
             data-info='<?php echo esc_attr( wp_json_encode( [
                     'version' => EASY_TF_VERSION,
                     'adminUrl' => admin_url(),
+                    'isPremium' => function_exists( 'easy_tf_fs' ) && easy_tf_fs()->can_use_premium_code(),
+                    'bfcm' => [
+                        'show' => class_exists( 'ETF_BFCM_Notice' ) ? ETF_BFCM_Notice::get_instance()->is_active() : false,
+                        'nonce' => wp_create_nonce( 'etf_bfcm_dismiss_nonce' ),
+                        'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+                        'pricingUrl' => 'https://bplugins.com/products/easy-twitter-feeds/pricing/?utm_source=plugin_dashboard&utm_medium=bfcm_banner&utm_campaign=bfcm2026',
+                    ],
                 ] ) ); ?>'
             ></div>
         <?php }

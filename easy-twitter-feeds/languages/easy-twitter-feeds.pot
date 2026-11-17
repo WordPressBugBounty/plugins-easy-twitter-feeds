@@ -2,14 +2,14 @@
 # This file is distributed under the GPLv2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Easy Twitter Feeds – Embed Social Media Posts with Live Updates 1.2.14\n"
+"Project-Id-Version: Easy Twitter Feeds – Embed Social Media Posts with Live Updates 1.2.15\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/easy-twitter-feeds\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-06-25T10:44:07+00:00\n"
+"POT-Creation-Date: 2026-11-17T03:03:48+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: easy-twitter-feeds\n"
@@ -39,9 +39,41 @@ msgstr ""
 msgid "https://bplugins.com/"
 msgstr ""
 
+#: easy-twitter-feeds.php:84
+msgid "Black Friday: Save 45%!"
+msgstr ""
+
 #: inc/admin-menu.php:25
 #: inc/admin-menu.php:26
 msgid "Demo and Help"
+msgstr ""
+
+#: inc/BFCMNotice.php:271
+msgid "Easy Twitter Feeds's Biggest Black Friday Sale is Live – Up to 45% OFF!"
+msgstr ""
+
+#: inc/BFCMNotice.php:274
+msgid "The biggest deal of the year just arrived early! This is your once-a-year opportunity to upgrade to Easy Twitter Feeds Pro at an exclusive price. Unlock live auto-refresh, media gallery layouts, custom hashtag streams, and everything you need to showcase dynamic X feeds!"
+msgstr ""
+
+#: inc/BFCMNotice.php:277
+msgid "Live Auto-Refresh"
+msgstr ""
+
+#: inc/BFCMNotice.php:278
+msgid "Media Gallery Layouts"
+msgstr ""
+
+#: inc/BFCMNotice.php:279
+msgid "Custom Hashtag Feeds"
+msgstr ""
+
+#: inc/BFCMNotice.php:280
+msgid "User Timeline & Likes"
+msgstr ""
+
+#: inc/BFCMNotice.php:287
+msgid "Unlock PRO Features →"
 msgstr ""
 
 #: inc/CustomPost.php:23
